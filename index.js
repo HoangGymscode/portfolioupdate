@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         try {
-            const response = await fetch(URL_API, {
+            const response = await fetch(window.__ENV.API_URL, {
                 method: 'POST',
                 body: JSON.stringify(formData)
             });
