@@ -590,7 +590,7 @@ function getBotResponse(message) {
     if (lowerMsg.includes('giới thiệu') || lowerMsg.includes('bạn là ai')) {
         return "Tôi là trợ lý ảo của Đặng Nguyễn Vũ Hoàng - một Full-stack Developer với kinh nghiệm phát triển web và ứng dụng di động. Hoàng hiện tập trung vào Reactjs và Javascript định hướng phát triển tương lai sẽ học thêm về Node.js, Java Spring Boot và những kiến thức về BackEnd.";
     }
-    else if (lowerMsg.includes('học vấn') || lowerMsg.includes('education level')) {
+    else if (lowerMsg.includes('học vấn') || lowerMsg.includes('education level') || lowerMsg.includes('trình độ học vấn ')) {
         return "Hoàng đã tốt nghiệp ngành công nghệ thông tin tại trường ĐH FPT. Có chứng chỉ giao tiếp tiếng Nhật tại FPT Academy Japan. Có khả năng đọc tài liệu tiếng anh và giao tiếp tiếng anh một cách cơ bản.";
     }
     else if (lowerMsg.includes('kinh nghiệm') || lowerMsg.includes('experience')) {
@@ -599,8 +599,8 @@ function getBotResponse(message) {
     else if (lowerMsg.includes('dự án') || lowerMsg.includes('project')) {
         return "Một số dự án nổi bật của Hoàng bao gồm: Hệ thống quản hỗ trợ khách hàng OCOP lưu trữ hàng và vận chuyển áp dụng theo mô hình Dark Store, Portfolio cá nhân giới thiệu về bản thân, NextJS Templates luyện tập tạo dựng giao diện trực quan về cách bố trí và hiển thị. Bạn có thể xem chi tiết trong phần 'Dự án'.";
     }
-    else if (lowerMsg.includes('kỹ năng') || lowerMsg.includes('skill')) {
-        return "Các kỹ năng chính của Hoàng: Front-end (React, Tailwind CSS), Back-end (JavaScript, Spring Boot), Mobile (Flutter), và Chứng chỉ tiếng Nhật tươnng đương N4. Xem thêm trong phần 'Kỹ năng' nhé!";
+    else if (lowerMsg.includes('kỹ năng') || lowerMsg.includes('skill') || lowerMsg.includes('Kỹ năng chuyên môn')) {
+        return "Các kỹ năng chính của Hoàng: Front-end (React, Tailwind CSS), đang học tập thêm Back-end (JavaScript, Spring Boot), đang học tập thêm Mobile (Flutter), và Chứng chỉ tiếng Nhật tươnng đương N4. Xem thêm trong phần 'Kỹ năng' nhé!";
     }
     else if (lowerMsg.includes('liên hệ') || lowerMsg.includes('contact')) {
         return "Bạn có thể liên hệ với Hoàng qua email: dangnguyenvuhoang8384@gmail.com hoặc số điện thoại: +84 346 711 532. Tất cả thông tin có trong phần 'Liên hệ'.";
