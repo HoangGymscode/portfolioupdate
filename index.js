@@ -567,6 +567,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    let geminiInitialized = false;
+let geminiModel = null;
+
+async function initGemini() {
+  if (!geminiInitialized) {
+    const API_KEY = "AIzaSyCraQmkfrp0alHqrUC_6v0uXt_juMCDuJM"; // Thay bằng API key thực của bạn
+    const genAI = new googleGenerativeAI.GoogleGenerativeAI(API_KEY);
+    geminiModel = await genAI.getGenerativeModel({ model: "gemini-pro" });
+    geminiInitialized = true;
+  }
+}
+
 function getBotResponse(message) {
     const lowerMsg = message.toLowerCase();
     
@@ -740,13 +752,24 @@ function getBotResponse(message) {
         return `Bạn rất dễ thương đấy! 😊\nNhưng Hoàng nghĩ chúng ta nên tìm hiểu nhau nhiều hơn...`;
     }
 
-    // === DEFAULT RESPONSES ===
-    const randomResponses = [
-        "Tôi không chắc mình hiểu câu hỏi của bạn. Bạn có thể hỏi về thông tin portfolio, kinh nghiệm làm việc hoặc dự án cá nhân của Hoàng nhé!",
-        "Xin lỗi, tôi chỉ có thể trả lời các câu hỏi liên quan đến portfolio của Hoàng. Bạn muốn biết điều gì về kỹ năng hoặc dự án của ấy?",
-        "Câu hỏi của bạn khá thú vị! Hiện tôi chỉ được lập trình để trả lời các thắc mắc về chuyên môn của Hoàng thôi."
-    ];
-    return randomResponses[Math.floor(Math.random() * randomResponses.length)];
+     // === NẾU KHÔNG PHẢI CÂU HỎI ĐẶC BIỆT, GỌI GEMINI API ===
+  try {
+    await initGemini();
+    const result = await geminiModel.generateContent(message);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error("Lỗi Gemini API:", error);
+    return "Xin lỗi, tôi gặp chút khó khăn khi xử lý câu hỏi này. Bạn có thể hỏi lại được không?";
+  }
+
+    // // === DEFAULT RESPONSES ===
+    // const randomResponses = [
+    //     "Tôi không chắc mình hiểu câu hỏi của bạn. Bạn có thể hỏi về thông tin portfolio, kinh nghiệm làm việc hoặc dự án cá nhân của Hoàng nhé!",
+    //     "Xin lỗi, tôi chỉ có thể trả lời các câu hỏi liên quan đến portfolio của Hoàng. Bạn muốn biết điều gì về kỹ năng hoặc dự án của ấy?",
+    //     "Câu hỏi của bạn khá thú vị! Hiện tôi chỉ được lập trình để trả lời các thắc mắc về chuyên môn của Hoàng thôi."
+    // ];
+    // return randomResponses[Math.floor(Math.random() * randomResponses.length)];
 }
 
     // Auto-open after 30 seconds if not interacted
