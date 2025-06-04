@@ -569,11 +569,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function getBotResponse(message) {
     const lowerMsg = message.toLowerCase();
-    const chatState = {
-    loveTopic: false,
-    loveLevel: 0,
-    userConfession: false
-};
+    
+//     const chatState = {
+//     loveTopic: false,
+//     loveLevel: 0,
+//     userConfession: false
+        
+// };
+        if (!window.chatState) {
+        window.chatState = {
+            loveTopic: false,
+            loveLevel: 0,
+            userConfession: false,
+            mentionedHuong: false // Thêm trạng thái mới
+        };
+    }
+
 
     // === GENERAL QUESTIONS ===
     if (lowerMsg.includes('giới thiệu') || lowerMsg.includes('bạn là ai')) {
@@ -608,19 +619,23 @@ function getBotResponse(message) {
         chatState.loveLevel = 1;
         return `Ồ! Bạn muốn gặp Hoàng à? 😊\nHiện tại Hoàng đang tập trung vào công việc phát triển bản thân...`;
     }
-    else if (lowerMsg.includes('Huong') || lowerMsg.includes('hường') || lowerMsg.includes('Hường') || lowerMsg.includes('hương') || lowerMsg.includes('huong')) {
-        chatState.loveTopic = true;
-        chatState.loveLevel = 1;
+    // === NEW LOVE TOPIC INITIATION ===
+    if (lowerMsg.includes('huong') || lowerMsg.includes('hường') || lowerMsg.includes('hương')) {
+        window.chatState.loveTopic = true;
+        window.chatState.loveLevel = 1;
+        window.chatState.mentionedHuong = true; // Đánh dấu đã nhắc đến Huong
         return 'Rất vui khi em đã tìm kiếm từ khoá đặc biệt này. Anh thiết lập từ khoá này để mong sẽ được em để ý đến mình nhiều hơn. Hy vọng, anh có thể bắt đầu trò chuyện với em hằng ngày và hằng giờ. Bắt đầu một mối quan hệ được cho là gì đó nghiêm túc và đặc biệt hơn. Em hãy cho anh cơ hội làm quen em nhé? 💖';
     }
-    else if (lowerMsg.includes('Oke') || lowerMsg.includes('oke')  || lowerMsg.includes('có') || lowerMsg.includes('co') || lowerMsg.includes('được rồi') || lowerMsg.includes('ừ') || lowerMsg.includes('ưm') || lowerMsg.includes('ừm')|| lowerMsg.includes('duoc roi')) {
-        chatState.loveTopic = true;
-        chatState.loveLevel = 1;
+    else if ((lowerMsg.includes('oke') || lowerMsg.includes('có') || lowerMsg.includes('co') || lowerMsg.includes('được rồi') || lowerMsg.includes('ừ') || lowerMsg.includes('ưm') || lowerMsg.includes('ừm') || lowerMsg.includes('duoc roi')) && window.chatState.mentionedHuong) {
+        window.chatState.loveTopic = true;
+        window.chatState.loveLevel = 1;
+        window.chatState.mentionedHuong = false; // Reset trạng thái sau khi trả lời
         return 'Cảm ơn em rất nhiều, từ giờ anh hứa sẽ cố gắng. Sẽ không làm Hường thất vọng nữa, đồng thời anh chắc chắn rằng mình sẽ nghiêm túc khi quen em và không làm phụ lòng kỳ vọng của em. 😚 💖';
     }
-    else if (lowerMsg.includes('hông') || lowerMsg.includes('khong') || lowerMsg.includes('không') || lowerMsg.includes('hong') || lowerMsg.includes('ko')){
-        chatState.loveTopic = true;
-        chatState.loveLevel = 1;
+    else if ((lowerMsg.includes('hông') || lowerMsg.includes('khong') || lowerMsg.includes('không') || lowerMsg.includes('hong') || lowerMsg.includes('ko')) && window.chatState.mentionedHuong) {
+        window.chatState.loveTopic = true;
+        window.chatState.loveLevel = 1;
+        window.chatState.mentionedHuong = false; // Reset trạng thái sau khi trả lời
         return 'Hãy cho anh cơ hội làm quen em đi mà, anh năng nỉ đó! 🥹 🥹';
     }
 
