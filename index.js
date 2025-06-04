@@ -581,7 +581,8 @@ function getBotResponse(message) {
             loveTopic: false,
             loveLevel: 0,
             userConfession: false,
-            mentionedHuong: false // Thêm trạng thái mới
+            mentionedHuong: false, // Thêm trạng thái mới
+            fortuneTellingMode: false // Thêm trạng thái bói toán
         };
     }
 
@@ -606,6 +607,97 @@ function getBotResponse(message) {
         return "Bạn có thể liên hệ với Hoàng qua email: dangnguyenvuhoang8384@gmail.com hoặc số điện thoại: +84 346 711 532. Tất cả thông tin có trong phần 'Liên hệ'.";
     }
 
+
+    // === BÓI TOÁN/MUA VUI ===
+    if (lowerMsg.includes('bói') || lowerMsg.includes('xem bói') || lowerMsg.includes('tử vi') || lowerMsg.includes('chiêm tinh') || 
+        lowerMsg.includes('fortune') || lowerMsg.includes('horoscope') || lowerMsg.includes('dự đoán')) {
+        window.chatState.fortuneTellingMode = true;
+        return "🔮 *Chế độ bói toán đã kích hoạt* 🔮\nBạn muốn xem bói về:\n1. Tình duyên 💖\n2. Sự nghiệp 💼\n3. Tài lộc 🤑\n4. Sức khỏe 🏥\nHãy chọn số tương ứng hoặc nói lĩnh vực bạn quan tâm!";
+    }
+
+    // Xử lý khi ở chế độ bói toán
+    if (window.chatState.fortuneTellingMode) {
+        window.chatState.fortuneTellingMode = false; // Tắt chế độ sau khi trả lời
+        
+        if (lowerMsg.includes('1') || lowerMsg.includes('tình duyên') || lowerMsg.includes('tình yêu') || lowerMsg.includes('love')) {
+            const loveFortune = [
+                "Sắp tới bạn sẽ gặp được người đặc biệt, hãy mở lòng đón nhận nhé! 💘",
+                "Tình duyên của bạn đang rất tốt, người ấy có thể đang thầm thích bạn đấy 😊",
+                "Cần thêm thời gian để tìm được người phù hợp, đừng vội vàng nhé!",
+                "Bạn sắp có cơ hội gặp gỡ người cùng chí hướng, hãy chú ý xung quanh!"
+            ];
+            return loveFortune[Math.floor(Math.random() * loveFortune.length)];
+        }
+        else if (lowerMsg.includes('2') || lowerMsg.includes('sự nghiệp') || lowerMsg.includes('công việc') || lowerMsg.includes('career')) {
+            const careerFortune = [
+                "Sự nghiệp của bạn sắp bước sang trang mới, hãy sẵn sàng đón nhận cơ hội! 🚀",
+                "Công việc hiện tại đang ổn định, nhưng bạn nên học thêm kỹ năng mới để thăng tiến",
+                "Tháng tới sẽ có tin vui về công việc, hãy kiên nhẫn nhé!",
+                "Bạn nên mạnh dạn đề xuất ý tưởng mới, cấp trên đang rất quan tâm đến bạn"
+            ];
+            return careerFortune[Math.floor(Math.random() * careerFortune.length)];
+        }
+        else if (lowerMsg.includes('3') || lowerMsg.includes('tài lộc') || lowerMsg.includes('tiền bạc') || lowerMsg.includes('money')) {
+            const moneyFortune = [
+                "Tài lộc đang đến với bạn, có thể là khoản tiền bất ngờ hoặc lương thưởng tăng 💰",
+                "Bạn nên thận trọng trong chi tiêu thời gian tới, tránh những khoản đầu tư mạo hiểm",
+                "Sắp tới sẽ có cơ hội kiếm tiền tốt, hãy chuẩn bị sẵn sàng!",
+                "Tiền bạc của bạn sẽ ổn định, nhưng đừng quá tập trung vào vật chất mà quên đi giá trị tinh thần"
+            ];
+            return moneyFortune[Math.floor(Math.random() * moneyFortune.length)];
+        }
+        else if (lowerMsg.includes('4') || lowerMsg.includes('sức khỏe') || lowerMsg.includes('health')) {
+            const healthFortune = [
+                "Sức khỏe của bạn khá tốt, nhưng nên chú ý đến chế độ ăn uống và nghỉ ngơi 🍎",
+                "Bạn cần vận động nhiều hơn, hãy thử tập yoga hoặc đi bộ mỗi ngày",
+                "Tinh thần ảnh hưởng nhiều đến sức khỏe của bạn, hãy giữ tâm trạng thoải mái",
+                "Nên đi khám tổng quát để phòng ngừa các bệnh tiềm ẩn"
+            ];
+            return healthFortune[Math.floor(Math.random() * healthFortune.length)];
+        }
+        else {
+            return "Mình không hiểu lĩnh vực bạn muốn xem bói. Hãy thử lại với các lựa chọn về tình duyên, sự nghiệp, tài lộc hoặc sức khỏe nhé!";
+        }
+    }
+
+    // === CÂU HỎI MUA VUI ===
+    if (lowerMsg.includes('đố vui') || lowerMsg.includes('câu đố') || lowerMsg.includes('đố bạn') || 
+        lowerMsg.includes('trò chơi') || lowerMsg.includes('game') || lowerMsg.includes('chơi gì')) {
+        const riddles = [
+            {
+                question: "Cái gì càng chơi càng ra nước? (Đáp án: Chơi cờ)",
+                answer: "chơi cờ"
+            },
+            {
+                question: "Cái gì bạn không mượn mà trả? (Đáp án: Lời cảm ơn)",
+                answer: "lời cảm ơn"
+            },
+            {
+                question: "Càng dài càng ngắn là cái gì? (Đáp án: Cuộc đời)",
+                answer: "cuộc đời"
+            },
+            {
+                question: "Cái gì đen khi bạn mua nó, đỏ khi dùng nó và xám khi vứt nó đi? (Đáp án: Than)",
+                answer: "than"
+            }
+        ];
+        const selectedRiddle = riddles[Math.floor(Math.random() * riddles.length)];
+        window.chatState.currentRiddleAnswer = selectedRiddle.answer;
+        return `🎲 *Câu đố vui* 🎲\n${selectedRiddle.question}\n\nHãy trả lời bằng cách gõ "đáp án: [câu trả lời của bạn]"`;
+    }
+
+    // Kiểm tra câu trả lời cho câu đố
+    if (lowerMsg.startsWith('đáp án:') && window.chatState.currentRiddleAnswer) {
+        const userAnswer = lowerMsg.replace('đáp án:', '').trim();
+        const correctAnswer = window.chatState.currentRiddleAnswer;
+        window.chatState.currentRiddleAnswer = null;
+        
+        if (userAnswer === correctAnswer) {
+            return "🎉 Chính xác! Bạn rất thông minh đấy!";
+        } else {
+            return `Tiếc quá, đáp án đúng là "${correctAnswer}". Cố gắng lần sau nhé!`;
+        }
+    }
 
     // === NEW LOVE TOPIC INITIATION ===
     if (lowerMsg.includes('yêu') || lowerMsg.includes('người yêu') || lowerMsg.includes('thích')|| lowerMsg.includes('tình cảm') || lowerMsg.includes('cô đơn') || 
